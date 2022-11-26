@@ -1,23 +1,81 @@
-import {component$, useContext} from '@builder.io/qwik';
+import {component$, useClientEffect$, useContext, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
 import type {DocumentHead} from '@builder.io/qwik-city';
-import Button from "../components/ui/Button/Button";
 import {globalContext} from "./layout";
+import TextArea from "../components/ui/TextArea/TextArea";
+import styles from '../components/styles/pages/index.scss?inline'
+import codeStyles from '../components/styles/codeTheme.scss?inline'
+import {Remarkable} from 'remarkable';
+import hljs from 'highlight.js';
 
+
+enum languages {
+    'js',
+    'python',
+    'go',
+    'php',
+    'html',
+    'css',
+    'c++',
+    'java'
+}
+
+
+export const remark = new Remarkable({
+    highlight(str: string, lang: string): string {
+        return hljs.highlight(str, {language: lang in languages?lang:'js'}, true).value
+    }
+})
 
 export default component$(() => {
 
 
     const globalStore = useContext(globalContext)
 
+    useStylesScoped$(styles)
+    useStyles$(codeStyles)
+
+
+    const textAreaValue = useSignal('')
+
+    const textAreaValueHtml = useSignal('')
+
+
+    useClientEffect$(({track}) => {
+        track(() => textAreaValue.value)
+        const html = remark.render(textAreaValue.value)
+        console.log(html)
+        textAreaValueHtml.value = html
+    })
+
 
     return (
-        <div>
-            <h1>RootRoute</h1>
-            <Button onClick$={() => {
-                globalStore.isDark = !globalStore.isDark
-            }}>
-                <h3>Toggle</h3>
-            </Button>
+        <div
+            class={'container'}
+        >
+            <div
+                class={'editor_container'}
+            >
+                <TextArea
+                    onInput$={(e) => {
+                        const target = e.target as HTMLTextAreaElement
+                        textAreaValue.value = target.value
+                    }}
+                    colorIndex={'0'}
+                />
+
+
+                    {textAreaValueHtml.value &&
+                        <div
+                            class={'editor_container_item_md'}
+                            dangerouslySetInnerHTML={textAreaValueHtml.value}
+                        />
+                    }
+
+
+
+
+            </div>
+
         </div>
     );
 });

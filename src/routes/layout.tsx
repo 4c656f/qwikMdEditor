@@ -25,8 +25,10 @@ export default component$(() => {
     return (
         <>
             <main>
-                <Header/>
-                <section>
+                {/*<Header/>*/}
+                <section
+                    style={{height: "100%"}}
+                >
                     <Slot/>
                 </section>
             </main>

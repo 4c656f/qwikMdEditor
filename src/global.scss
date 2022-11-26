@@ -7,7 +7,11 @@
   margin: 0;
   padding: 0;
 }
-
+body{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 //body {
 //
 //
@@ -173,5 +177,15 @@ code {
   background-color: var(--index_2_color);
   border-radius: $border_radius;
   padding: 5px 5px 5px 5px;
+
+}
+header{
+  width: 100%;
+}
+main{
+  min-height: 100vh;
+  height: 1px;
+  display: flex;
+  flex-direction: column;
 
 }
