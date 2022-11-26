@@ -1,0 +1,177 @@
+@import "./variables";
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+//body {
+//
+//
+//    --index_0_color: #000000;
+//
+//    --index_1_color: #131313;
+//
+//    --index_1_5_color: #1A1A1A;
+//
+//    --index_2_color: #1B1B1B;
+//
+//    --index_2_5_color: #1e1e1e;
+//
+//    --index_3_color: #383838;
+//
+//    --index_3_5_color: #383838;
+//
+//    --index_0_text: #D2D2D2;
+//
+//    --index_1_text: #9E9E9E;
+//
+//    --index_2_text: #5C5D66;
+//
+//    --index_primary_text: #0B6EF9;
+//
+//
+//    background-color: var(--index_0_color);
+//
+//    width: 100%;
+//}
+
+
+body[data-theme='light'] {
+  --index_0_color: #F3F4F5;
+
+  --index_1_color: #FFFFFF;
+
+  --index_1_5_color: #F9F9F9;
+
+  --index_2_color: #F7F7F7;
+
+  --index_2_5_color: #f3f3f3;
+
+  --index_3_color: #EDEFF2;
+
+  --index_3_5_color: #EDEFF2;
+
+  --index_0_text: #191C1F;
+
+  --index_1_text: #5E6265;
+
+  --index_2_text: #5C5D66;
+
+  --index_primary_text: #0B6EF9;
+}
+
+body[data-theme='dark'] {
+
+  --index_0_color: #000000;
+
+  --index_1_color: #131313;
+
+  --index_1_5_color: #1A1A1A;
+
+  --index_2_color: #1B1B1B;
+
+  --index_2_5_color: #1e1e1e;
+
+  --index_3_color: #383838;
+
+  --index_3_5_color: #383838;
+
+  --index_0_text: #D2D2D2;
+
+  --index_1_text: #9E9E9E;
+
+  --index_2_text: #5C5D66;
+
+  --index_primary_text: #0B6EF9;
+}
+
+body {
+  background-color: var(--index_0_color);
+  --index_0_color: #000000;
+
+  --index_1_color: #131313;
+
+  --index_1_5_color: #1A1A1A;
+
+  --index_2_color: #1B1B1B;
+
+  --index_2_5_color: #1e1e1e;
+
+  --index_3_color: #383838;
+
+  --index_3_5_color: #383838;
+
+  --index_0_text: #D2D2D2;
+
+  --index_1_text: #9E9E9E;
+
+  --index_2_text: #5C5D66;
+
+  --index_primary_text: #0B6EF9;
+}
+
+@keyframes backgroundPulse {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: green;
+  }
+  100% {
+    background-color: red;
+  }
+
+}
+
+h1 {
+  all: unset;
+
+  color: var(--index_0_text);
+  @include default_h1()
+}
+
+h2 {
+  all: unset;
+  color: var(--index_0_text);
+  @include default_h2()
+}
+
+h3 {
+  all: unset;
+  color: var(--index_0_text);
+  @include default_h3()
+}
+
+h4 {
+  all: unset;
+  color: var(--index_0_text);
+  @include default_h4()
+}
+
+
+span {
+
+  color: var(--index_0_text);
+  @include default_h4();
+
+}
+
+a {
+  color: var(--index_0_text);
+  @include default_h4();
+}
+
+code {
+  @include default_h4();
+}
+
+.highlighted {
+  background-color: var(--index_2_color);
+  border-radius: $border_radius;
+  padding: 5px 5px 5px 5px;
+
+}

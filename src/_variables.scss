@@ -1,0 +1,202 @@
+// Elements schemes
+
+$index_0_element: (
+        "class_name": "color_0_index",
+        "background" : var(--index_1_color),
+        "border" : var(--index_1_color),
+        "hover" : var(--index_1_5_color),
+);
+$index_1_element: (
+        "class_name": "color_1_index",
+        "background" : var(--index_3_color),
+        "border" : var(--index_3_color),
+        "hover" : var(--index_3_5_color),
+);
+$index_2_element: (
+        "class_name": "color_2_index",
+        "background" : var(--index_1_color),
+        "border" : var(--index_1_color),
+        "hover" : var(--index_1_5_color),
+);
+$index_action_element: (
+        "class_name": "color_action_index",
+        "background" : var(--index_3_color),
+        "border" : var(--index_3_color),
+        "hover" : var(--index_3_color),
+);
+
+
+$color_schemes: $index_0_element $index_1_element $index_2_element $index_action_element;
+
+
+/* Text colors */
+$text_color_main: #FFF;
+$text_color_second: #838383;
+$border_radius: 6px;
+
+
+/* Text Fonts */
+$font_family: 'BasierCircle', sans-serif;
+
+$font-weight-index0_2: 800;
+$font-weight-index0_5: 600;
+$font-weight-index1: 400;
+$font-weight-index2: 300;
+$font-weight-index3: 100;
+
+$font-size-h1: 20px;
+$font-size-h2: 18px;
+$font-size-h3: 16px;
+$font-size-h4: 14px;
+
+@mixin default_h1($size:$font-size-h1, $weight:$font-weight-index0_2) {
+  font-family: $font_family;
+  color: var(--index_0_text);
+  font-size: $size;
+  font-weight: $weight;
+}
+
+@mixin default_h2($size:$font-size-h2, $weight:$font-weight-index0_5) {
+  font-family: $font_family;
+  color: var(--index_0_text);
+  font-size: $size;
+  font-weight: $weight;
+}
+
+@mixin default_h3($size:$font-size-h3, $weight:$font-weight-index0_5) {
+  font-family: $font_family;
+  font-size: $size;
+  color: var(--index_0_text);
+  font-weight: $weight;
+}
+
+@mixin default_h4($size:$font-size-h4, $weight:$font-weight-index1) {
+  font-family: $font_family;
+  font-size: $size;
+  color: var(--index_0_text);
+  font-weight: $weight;
+}
+
+/* Animation */
+$default_transition: 0.3s;
+
+/* Layouts */
+
+@mixin small_padding($vertical:false, $horizontal:false, $top:7px, $right:13px, $bottom:7px, $left:13px) {
+
+  @if ($vertical) {
+
+    padding: $vertical $right $vertical $left;
+
+  } @else if ($horizontal) {
+
+    padding: $top $horizontal $bottom $horizontal;
+
+  } @else if ($vertical and $horizontal) {
+
+    padding: $vertical $horizontal $horizontal $horizontal;
+  } @else {
+
+    padding: $top $right $bottom $left;
+
+  }
+
+
+}
+
+@mixin medium_padding($vertical:false, $horizontal:false, $top:10px, $right:16px, $bottom:10px, $left:16px) {
+
+  @if ($vertical) {
+
+    padding: $vertical $right $vertical $left;
+
+  } @else if ($horizontal) {
+
+    padding: $top $horizontal $bottom $horizontal;
+
+  } @else if ($vertical and $horizontal) {
+
+    padding: $vertical $horizontal $horizontal $horizontal;
+  } @else {
+
+    padding: $top $right $bottom $left;
+
+  }
+
+
+}
+
+@mixin large_padding($vertical:false, $horizontal:false, $top:14px, $right:17px, $bottom:14px, $left:17px) {
+
+  @if ($vertical) {
+
+    padding: $vertical $right $vertical $left;
+
+  } @else if ($horizontal) {
+
+    padding: $top $horizontal $bottom $horizontal;
+
+  } @else if ($vertical and $horizontal) {
+
+    padding: $vertical $horizontal $horizontal $horizontal;
+  } @else {
+
+    padding: $top $right $bottom $left;
+
+  }
+
+
+}
+
+@mixin default_svg($size:14px) {
+  height: $size;
+  width: $size;
+  transition: $default_transition;
+  & path {
+    transition: $default_transition;
+    stroke: var(--index_0_text);
+  }
+}
+
+@mixin default_svg_layout() {
+  position: absolute;
+  right: calc(0% + 24px);
+  transform: translate(0%, -50%);
+  top: 50%;
+}
+
+
+@mixin styling_scrollbar($color_index:1) {
+  /* width */
+  &::-webkit-scrollbar {
+    width: 8px;
+
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: none;
+
+
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+
+    border: 1.5px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+
+    background-color: var(--index_#{$color_index}_color);
+
+
+    border-radius: 9999px;
+
+
+  }
+
+  &::-webkit-scrollbar-corner {
+    background-color: transparent;
+  }
+
+}
+
