@@ -1,0 +1,33 @@
+.container {
+  all: unset;
+
+  &:hover {
+    & > .section {
+      display: block;
+    }
+  }
+}
+
+.button {
+
+}
+
+.section {
+  position: absolute;
+  display: none;
+  transform: translate(-50%, 0);
+  left: 50%;
+  top: calc(100% - 20px);
+
+  padding-top: 40px;
+  z-index: 2;
+
+  &:hover {
+    display: block;
+
+    & ~ .button {
+      background-color: var(--index_1_5_color);
+    }
+  }
+
+}

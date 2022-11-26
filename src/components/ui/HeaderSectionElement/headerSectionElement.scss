@@ -1,0 +1,25 @@
+
+.section_element {
+  width: max-content;
+  min-width: 200px;
+
+  display: flex;
+  grid-gap: 15px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  //width: 200px;
+}
+
+.elements_button {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  grid-gap: 6px;
+}
+
+@media (max-width: 500px) {
+  .section_element {
+    width: 100%;
+  }
+}

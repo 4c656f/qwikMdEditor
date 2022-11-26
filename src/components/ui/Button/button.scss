@@ -1,0 +1,159 @@
+@import "../../../variables";
+
+
+.container {
+  all: unset;
+  font-family: $font_family;
+  border-radius: $border_radius;
+  cursor: pointer;
+  position: relative;
+  transition: $default_transition;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-gap: 5px;
+  box-sizing: border-box;
+  @include default_h4;
+}
+
+@keyframes icon_appearance {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.small {
+  @include small_padding;
+}
+
+.medium {
+  @include medium_padding;
+}
+
+.large {
+  @include large_padding;
+}
+
+@each $scheme in $color_schemes {
+
+  .text.#{map-get($scheme, 'class_name')} {
+    color: var(--index_0_text);
+
+    &:hover {
+      background-color: map-get($scheme, 'hover');
+    }
+
+    &.checked {
+
+    }
+
+    &.disabled {
+
+    }
+  }
+  .outlined.#{map-get($scheme, 'class_name')} {
+    color: var(--index_0_text);
+    border: map-get($scheme, 'border') 1px solid;
+
+    &:hover {
+      background-color: map-get($scheme, 'hover');
+    }
+
+    &.checked {
+
+    }
+
+    &.disabled {
+
+    }
+  }
+  .contained.#{map-get($scheme, 'class_name')} {
+    background-color: map-get($scheme, 'background');
+    color: var(--index_0_text);
+
+    &:hover {
+      background-color: map-get($scheme, 'hover');
+    }
+
+    &.checked {
+
+    }
+
+    &.disabled {
+
+    }
+
+  }
+  .contained.#{map-get($scheme, 'class_name')} {
+    background-color: map-get($scheme, 'background');
+    color: var(--index_0_text);
+
+    &:hover {
+      background-color: map-get($scheme, 'hover');
+    }
+
+    &.checked {
+
+    }
+
+    &.disabled {
+
+    }
+
+  }
+  .link.#{map-get($scheme, 'class_name')} {
+
+    color: var(--index_0_text);
+
+
+    & .icon svg {
+      opacity: 0;
+    }
+
+    &:hover {
+      background-color: map-get($scheme, 'hover');
+      color: var(--index_primary_text);
+
+      & .icon svg {
+        animation-name: icon_appearance;
+        animation-duration: 0.2s;
+        opacity: 1;
+      }
+
+      & .icon svg path {
+        stroke: var(--index_primary_text);
+      }
+
+    }
+
+    &.checked {
+
+    }
+
+    &.disabled {
+
+    }
+
+  }
+}
+
+
+.disabled {
+  color: var(--index_2_text) !important;
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+}
+
+.icon > svg {
+  @include default_svg($size: 16px);
+}

@@ -1,0 +1,1 @@
+export type IColorIndex = '0' | '1' | '2' | 'action'

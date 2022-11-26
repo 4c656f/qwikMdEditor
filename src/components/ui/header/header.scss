@@ -1,0 +1,24 @@
+@import '../../../variables';
+
+.container {
+  width: 100%;
+  background-color: var(--index_1_color);
+  min-height: 58px;
+  border-radius: $border_radius;
+  //margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+
+  @include small_padding($horizontal: 30px)
+}
+
+.sections {
+  display: flex;
+  flex-direction: row;
+  grid-gap: 10px;
+  @include default_h4()
+}
