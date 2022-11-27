@@ -1,12 +1,4 @@
-import {
-    component$,
-    HTMLAttributes,
-    PropFunction,
-    Signal,
-    Slot,
-    useClientEffect$,
-    useStylesScoped$
-} from '@builder.io/qwik';
+import {component$, HTMLAttributes, PropFunction, Signal, useStylesScoped$} from '@builder.io/qwik';
 import styles from './textArea.scss?inline'
 import {IColorIndex} from "../../../../types/IColorIndex";
 
@@ -49,7 +41,7 @@ export default component$((props: TextAreaProps) => {
 
             class={classes.join(' ')}
             oninput$={async (e) => {
-                if(onInput$){
+                if (onInput$) {
                     await onInput$(e)
                 }
             }}

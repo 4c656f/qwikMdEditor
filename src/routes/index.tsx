@@ -1,13 +1,4 @@
-import {
-    $,
-    component$,
-    QwikKeyboardEvent,
-    Signal,
-    useClientEffect$,
-    useSignal,
-    useStyles$,
-    useStylesScoped$
-} from '@builder.io/qwik';
+import {$, component$, Signal, useClientEffect$, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
 import type {DocumentHead} from '@builder.io/qwik-city';
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
@@ -102,9 +93,6 @@ export default component$(() => {
     const textAreaValueHtml = useSignal('')
 
 
-
-
-
     const handleMouseMove = $((e: MouseEvent) => {
         e.preventDefault()
         dragContainerRef.value.style.width = `${e.clientX}px`
@@ -138,10 +126,10 @@ export default component$(() => {
         }
 
     })
-    const handleKeyDown = $((e:KeyboardEvent)=>{
+    const handleKeyDown = $((e: KeyboardEvent) => {
         const target = e.target as HTMLTextAreaElement
 
-        if(e.key === 'Tab'){
+        if (e.key === 'Tab') {
             e.preventDefault()
             const value = textAreaValue.value
             const start = target.selectionStart
@@ -152,7 +140,7 @@ export default component$(() => {
         }
 
     })
-    useClientEffect$(()=>{
+    useClientEffect$(() => {
         textAreaRef.value.addEventListener('keydown', handleKeyDown)
     })
 
@@ -186,18 +174,22 @@ export default component$(() => {
                         preventdefault:drag
                         preventdefault:mousedown
                         class={'drag'}
-                        document:onMouseUp$={() => {
-                            isUp.value = false
-                        }}
+                        document:onMouseUp$= {() => {
+                        isUp.value = false
+                    }}
                         onMouseDown$={(e) => {
                             e.stopPropagation()
                             isUp.value = true
                         }}
-                        onTouchStart$={()=>{
+                        onTouchStart$={() => {
                             isUp.value = true
                         }}
-                        onTouchEnd$={()=>{isUp.value = false}}
-                        onTouchCancel$={()=>{isUp.value = false}}
+                        onTouchEnd$={() => {
+                            isUp.value = false
+                        }}
+                        onTouchCancel$={() => {
+                            isUp.value = false
+                        }}
 
                     />
                 </div>
