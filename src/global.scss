@@ -132,26 +132,25 @@ body {
 }
 
 h1 {
-  all: unset;
+
 
   color: var(--index_0_text);
   @include default_h1()
 }
 
 h2 {
-  all: unset;
   color: var(--index_0_text);
   @include default_h2()
 }
 
 h3 {
-  all: unset;
+
   color: var(--index_0_text);
   @include default_h3()
 }
 
 h4 {
-  all: unset;
+
   color: var(--index_0_text);
   @include default_h4()
 }
@@ -160,7 +159,13 @@ h4 {
 span {
 
   color: var(--index_0_text);
-  @include default_h4();
+  @include default_h4($size: 14px);
+
+}
+p {
+
+  color: var(--index_0_text);
+  @include default_h4($size: 14px);
 
 }
 
@@ -188,4 +193,11 @@ main{
   display: flex;
   flex-direction: column;
 
+}
+pre code {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  background-color: var(--index_1_color);
+  border-radius: $border_radius;
 }

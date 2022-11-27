@@ -10,9 +10,10 @@
 
 }
 .editor_container_item{
-  width: 100%;
+  width: max-content;
   height: 100%;
-
+  position: relative;
+  flex-grow: 1;
 }
 .editor_container_item_md{
   width: 100%;
@@ -23,6 +24,27 @@
   max-width: 100%;
   overflow: hidden;
   word-break: break-word;
+  flex-grow: 1;
+  //flex-shrink: 0;
 }
+.drag{
+  position: absolute;
+  height: calc(100% - 10px);
+  width: 3px;
+  transform: translate(0%, -50%);
+  top: 50%;
+  background-color: var(--index_2_color);
+  right: 0%;
 
+  cursor: pointer;
+  transition: $default_transition;
+
+  &:hover{
+    background-color: var(--index_3_color);
+  }
+  &:active{
+    background-color: var(--index_3_color);
+  }
+
+}
 

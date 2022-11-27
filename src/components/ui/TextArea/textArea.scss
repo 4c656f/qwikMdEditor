@@ -3,23 +3,22 @@
 .text_area {
   //transition: $default_transition;
   border-radius: $border_radius;
-  height: 100px;
-  width: 50%;
+  height: 100%;
+  width: 100%;
   flex-shrink: 0;
 
-  resize: horizontal;
-  overflow: hidden;
+  resize: none;
+  overflow-y: scroll;
   color: var(--index_0_text);
+
   &:focus{
     outline: none;
   }
-  &::-webkit-resizer{
-    border-style: solid;
-    border-color: transparent orangered orangered transparent;
-  }
+
 
   @include default_h3($size: 15px, $weight: $font_weight-index1);
-  @include small_padding($vertical: 5px, $horizontal: 5px)
+  @include small_padding($vertical: 5px, $horizontal: 5px);
+  @include styling_scrollbar($color_index:2)
 }
 
 @each $scheme in $color_schemes {

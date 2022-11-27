@@ -1,4 +1,13 @@
-import {component$, useClientEffect$, useContext, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
+import {
+    component$,
+    QwikDragEvent,
+    useClientEffect$,
+    useContext,
+    useSignal,
+    useStyles$,
+    useStylesScoped$,
+    $, useClientMount$
+} from '@builder.io/qwik';
 import type {DocumentHead} from '@builder.io/qwik-city';
 import {globalContext} from "./layout";
 import TextArea from "../components/ui/TextArea/TextArea";
@@ -16,13 +25,14 @@ enum languages {
     'html',
     'css',
     'c++',
-    'java'
+    'java',
+    'ts'
 }
 
 
 export const remark = new Remarkable({
     highlight(str: string, lang: string): string {
-        return hljs.highlight(str, {language: lang in languages?lang:'js'}, true).value
+        return hljs.highlight(str, {language: lang in languages ? lang : 'ts'}, true).value
     }
 })
 
@@ -35,17 +45,57 @@ export default component$(() => {
     useStyles$(codeStyles)
 
 
-    const textAreaValue = useSignal('')
+    const textAreaValue = useSignal('# title \n' +
+        '## title\n' +
+        '### title\n' +
+        '#### title\n' +
+        '\n' +
+        'some post content\n' +
+        '\n' +
+        '```ts\n' +
+        'type IVariableType = {\n' +
+        '   param: string\n' +
+        '}\n' +
+        'const variable: IVariableType = 10\n' +
+        '```')
+    const textAreaRef = useSignal<HTMLTextAreaElement>()
+    const dragRef = useSignal<HTMLDivElement>()
+
+    const isUp = useSignal<boolean>(false)
 
     const textAreaValueHtml = useSignal('')
 
 
+    const initialPos = useSignal<null|number>(null)
+    const initialSize = useSignal<null|number>(null)
+
+
+
+
+    const handleMouseMove = $((e:MouseEvent)=>{
+
+        if(textAreaRef.value && e.clientX!==0){
+            textAreaRef.value.style.width = `${e.clientX}px`
+        }
+    })
+    //TEXT CHANGE
     useClientEffect$(({track}) => {
         track(() => textAreaValue.value)
         const html = remark.render(textAreaValue.value)
-        console.log(html)
         textAreaValueHtml.value = html
     })
+    //MOUSE EVENT START
+    useClientEffect$(({track, cleanup})=>{
+        track(()=>isUp.value)
+        cleanup(()=>{
+            document.removeEventListener('mousemove',handleMouseMove)
+        })
+        if(isUp.value){
+            document.addEventListener('mousemove', handleMouseMove)
+        }
+
+    })
+
 
 
     return (
@@ -55,23 +105,40 @@ export default component$(() => {
             <div
                 class={'editor_container'}
             >
-                <TextArea
-                    onInput$={(e) => {
-                        const target = e.target as HTMLTextAreaElement
-                        textAreaValue.value = target.value
-                    }}
-                    colorIndex={'0'}
-                />
+                <div
+                    class={'editor_container_item'}
+                >
+                    <TextArea
+                        value={textAreaValue}
+                        ref={textAreaRef}
+                        onInput$={(e) => {
+                            const target = e.target as HTMLTextAreaElement
+                            textAreaValue.value = target.value
+                        }}
+                        id={'Resizable'}
+                        colorIndex={'0'}
+                    />
+                    <div
+                        ref={dragRef}
+                        preventdefault:drag
+                        class={'drag'}
+                        document:onMouseUp$={(e)=>{
+                            isUp.value = false
+                        }}
+                        onMouseDown$={(e)=>{
+                            isUp.value = true
+                        }}
+
+                    />
+                </div>
 
 
-                    {textAreaValueHtml.value &&
-                        <div
-                            class={'editor_container_item_md'}
-                            dangerouslySetInnerHTML={textAreaValueHtml.value}
-                        />
-                    }
-
-
+                {textAreaValueHtml.value &&
+                    <div
+                        class={'editor_container_item_md'}
+                        dangerouslySetInnerHTML={textAreaValueHtml.value}
+                    />
+                }
 
 
             </div>

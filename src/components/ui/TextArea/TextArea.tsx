@@ -1,18 +1,34 @@
-import {component$, useClientEffect$, useClientMount$, useSignal, useStylesScoped$} from '@builder.io/qwik';
+import {
+    component$,
+    HTMLAttributes,
+    Signal,
+    useClientEffect$,
+    useClientMount$,
+    useSignal,
+    useStylesScoped$
+} from '@builder.io/qwik';
 import styles from './textArea.scss?inline'
 import {IColorIndex} from "../../../../types/IColorIndex";
 import autosize from 'autosize';
 
+
+const type = 'textarea'
+
 type TextAreaProps = {
     colorIndex?: IColorIndex;
-    onInput$?: (e:Event)=>void
-}
+    onInput$?: (e:Event)=>void;
+    ref?: Signal<HTMLTextAreaElement|undefined>;
+    value?: Signal<string|undefined>;
+}& Omit<HTMLAttributes<typeof type>, 'children'>
 
 export default component$((props: TextAreaProps) => {
 
     const {
         colorIndex = "1",
-        onInput$
+        onInput$,
+        value,
+        ref,
+        ...rest
     } = props
 
 
@@ -20,39 +36,29 @@ export default component$((props: TextAreaProps) => {
 
     const classes = [
         'text_area',
-        `color_${colorIndex}_index`
+        `color_${colorIndex}_index`,
+
     ]
 
-    const ref = useSignal<HTMLTextAreaElement>()
-    const textValue = useSignal<string>('')
-    const height = useSignal<number>(1)
-
-
     useClientEffect$(({track})=>{
-        track(()=>textValue.value)
-        if(ref.value){
-            const heightTarget = ref.value.scrollHeight;
-            const rowHeight = 15;
-            const trows = Math.ceil(heightTarget / rowHeight) - 1;
-            console.log(trows)
-            if (trows) {
-
-                height.value = trows;
-
-            }
-        }
+        track(()=>value?.value)
+        console.log(value?.value, 'textArea')
     })
+
+
     return (
 
         <textarea
 
             ref={ref}
-            rows={height.value}
+            // value={value?.value}
+
             class={classes.join(' ')}
             oninput$={async (e)=>{
                 if(onInput$)onInput$(e)
             }}
-        />
+            {...rest}
+        >{value?.value}</textarea>
 
     );
 });

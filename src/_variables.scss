@@ -44,10 +44,10 @@ $font-weight-index1: 400;
 $font-weight-index2: 300;
 $font-weight-index3: 100;
 
-$font-size-h1: 20px;
-$font-size-h2: 18px;
-$font-size-h3: 16px;
-$font-size-h4: 14px;
+$font-size-h1: 30px;
+$font-size-h2: 25px;
+$font-size-h3: 20px;
+$font-size-h4: 15px;
 
 @mixin default_h1($size:$font-size-h1, $weight:$font-weight-index0_2) {
   font-family: $font_family;
