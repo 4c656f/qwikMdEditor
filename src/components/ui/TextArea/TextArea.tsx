@@ -1,25 +1,16 @@
-import {
-    component$,
-    HTMLAttributes,
-    Signal,
-    useClientEffect$,
-    useClientMount$,
-    useSignal,
-    useStylesScoped$
-} from '@builder.io/qwik';
+import {component$, HTMLAttributes, PropFunction, Signal, useClientEffect$, useStylesScoped$} from '@builder.io/qwik';
 import styles from './textArea.scss?inline'
 import {IColorIndex} from "../../../../types/IColorIndex";
-import autosize from 'autosize';
 
 
 const type = 'textarea'
 
 type TextAreaProps = {
     colorIndex?: IColorIndex;
-    onInput$?: (e:Event)=>void;
-    ref?: Signal<HTMLTextAreaElement|undefined>;
-    value?: Signal<string|undefined>;
-}& Omit<HTMLAttributes<typeof type>, 'children'>
+    onInput$?: PropFunction<(e: Event) => void>;
+    ref?: Signal<HTMLTextAreaElement | undefined>;
+    value?: Signal<string | undefined>;
+} & Omit<HTMLAttributes<typeof type>, 'children'>
 
 export default component$((props: TextAreaProps) => {
 
@@ -40,8 +31,8 @@ export default component$((props: TextAreaProps) => {
 
     ]
 
-    useClientEffect$(({track})=>{
-        track(()=>value?.value)
+    useClientEffect$(({track}) => {
+        track(() => value?.value)
         console.log(value?.value, 'textArea')
     })
 
@@ -54,8 +45,10 @@ export default component$((props: TextAreaProps) => {
             // value={value?.value}
 
             class={classes.join(' ')}
-            oninput$={async (e)=>{
-                if(onInput$)onInput$(e)
+            oninput$={async (e) => {
+                if(onInput$){
+                    await onInput$(e)
+                }
             }}
             {...rest}
         >{value?.value}</textarea>

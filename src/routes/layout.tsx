@@ -1,5 +1,4 @@
 import {component$, createContext, Slot, useClientEffect$, useContextProvider, useStore} from '@builder.io/qwik';
-import Header from '../components/header/header';
 
 
 type globalStore = {

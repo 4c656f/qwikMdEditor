@@ -1,15 +1,6 @@
-import {
-    component$,
-    QwikDragEvent,
-    useClientEffect$,
-    useContext,
-    useSignal,
-    useStyles$,
-    useStylesScoped$,
-    $, useClientMount$
-} from '@builder.io/qwik';
+import {$, component$, useClientEffect$, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
 import type {DocumentHead} from '@builder.io/qwik-city';
-import {globalContext} from "./layout";
+
 import TextArea from "../components/ui/TextArea/TextArea";
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
@@ -39,7 +30,7 @@ export const remark = new Remarkable({
 export default component$(() => {
 
 
-    const globalStore = useContext(globalContext)
+    // const globalStore = useContext(globalContext)
 
     useStylesScoped$(styles)
     useStyles$(codeStyles)
@@ -66,15 +57,12 @@ export default component$(() => {
     const textAreaValueHtml = useSignal('')
 
 
-    const initialPos = useSignal<null|number>(null)
-    const initialSize = useSignal<null|number>(null)
 
 
 
+    const handleMouseMove = $((e: MouseEvent) => {
 
-    const handleMouseMove = $((e:MouseEvent)=>{
-
-        if(textAreaRef.value && e.clientX!==0){
+        if (textAreaRef.value && e.clientX !== 0) {
             textAreaRef.value.style.width = `${e.clientX}px`
         }
     })
@@ -85,17 +73,16 @@ export default component$(() => {
         textAreaValueHtml.value = html
     })
     //MOUSE EVENT START
-    useClientEffect$(({track, cleanup})=>{
-        track(()=>isUp.value)
-        cleanup(()=>{
-            document.removeEventListener('mousemove',handleMouseMove)
+    useClientEffect$(({track, cleanup}) => {
+        track(() => isUp.value)
+        cleanup(() => {
+            document.removeEventListener('mousemove', handleMouseMove)
         })
-        if(isUp.value){
+        if (isUp.value) {
             document.addEventListener('mousemove', handleMouseMove)
         }
 
     })
-
 
 
     return (
@@ -122,10 +109,10 @@ export default component$(() => {
                         ref={dragRef}
                         preventdefault:drag
                         class={'drag'}
-                        document:onMouseUp$={(e)=>{
-                            isUp.value = false
-                        }}
-                        onMouseDown$={(e)=>{
+                        document:onMouseUp$={() => {
+                        isUp.value = false
+                    }}
+                        onMouseDown$={() => {
                             isUp.value = true
                         }}
 
@@ -134,10 +121,10 @@ export default component$(() => {
 
 
                 {textAreaValueHtml.value &&
-                    <div
-                        class={'editor_container_item_md'}
-                        dangerouslySetInnerHTML={textAreaValueHtml.value}
-                    />
+                <div
+                    class={'editor_container_item_md'}
+                    dangerouslySetInnerHTML={textAreaValueHtml.value}
+                />
                 }
 
 

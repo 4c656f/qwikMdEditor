@@ -7,11 +7,13 @@
   margin: 0;
   padding: 0;
 }
-body{
+
+body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
 //body {
 //
 //
@@ -162,6 +164,7 @@ span {
   @include default_h4($size: 14px);
 
 }
+
 p {
 
   color: var(--index_0_text);
@@ -184,16 +187,19 @@ code {
   padding: 5px 5px 5px 5px;
 
 }
-header{
+
+header {
   width: 100%;
 }
-main{
+
+main {
   min-height: 100vh;
   height: 1px;
   display: flex;
   flex-direction: column;
 
 }
+
 pre code {
   display: block;
   overflow-x: auto;

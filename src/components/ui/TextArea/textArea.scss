@@ -11,14 +11,14 @@
   overflow-y: scroll;
   color: var(--index_0_text);
 
-  &:focus{
+  &:focus {
     outline: none;
   }
 
 
   @include default_h3($size: 15px, $weight: $font_weight-index1);
   @include small_padding($vertical: 5px, $horizontal: 5px);
-  @include styling_scrollbar($color_index:2)
+  @include styling_scrollbar($color_index: 2)
 }
 
 @each $scheme in $color_schemes {
