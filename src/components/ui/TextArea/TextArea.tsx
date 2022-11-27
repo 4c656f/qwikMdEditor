@@ -8,7 +8,7 @@ const type = 'textarea'
 type TextAreaProps = {
     colorIndex?: IColorIndex;
     onInput$?: PropFunction<(e: Event) => void>;
-    ref?: Signal<HTMLTextAreaElement | undefined>;
+    ref?: Signal<HTMLTextAreaElement>;
     value?: Signal<string | undefined>;
 } & Omit<HTMLAttributes<typeof type>, 'children'>
 

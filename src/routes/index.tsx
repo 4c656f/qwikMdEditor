@@ -1,11 +1,10 @@
-import {$, component$, useClientEffect$, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
+import {$, component$, Signal, useClientEffect$, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
 import type {DocumentHead} from '@builder.io/qwik-city';
-
-import TextArea from "../components/ui/TextArea/TextArea";
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
 import {Remarkable} from 'remarkable';
 import hljs from 'highlight.js';
+import TextArea from "../components/ui/TextArea/TextArea";
 
 
 enum languages {
@@ -49,8 +48,8 @@ export default component$(() => {
         '}\n' +
         'const variable: IVariableType = 10\n' +
         '```')
-    const textAreaRef = useSignal<HTMLTextAreaElement>()
-    const dragRef = useSignal<HTMLDivElement>()
+    const textAreaRef = useSignal<HTMLTextAreaElement>() as Signal<HTMLTextAreaElement>
+    const dragRef = useSignal<HTMLDivElement>() as Signal<HTMLDivElement>
 
     const isUp = useSignal<boolean>(false)
 
@@ -61,25 +60,34 @@ export default component$(() => {
 
 
     const handleMouseMove = $((e: MouseEvent) => {
-
-        if (textAreaRef.value && e.clientX !== 0) {
-            textAreaRef.value.style.width = `${e.clientX}px`
-        }
+        e.preventDefault()
+        textAreaRef.value.style.width = `${e.clientX}px`
     })
+    const handleTouchMove = $((e: TouchEvent) => {
+
+        console.log('touchEvent')
+        textAreaRef.value.style.width = `${e.targetTouches[0].pageX}px`
+    })
+
+
     //TEXT CHANGE
     useClientEffect$(({track}) => {
         track(() => textAreaValue.value)
         const html = remark.render(textAreaValue.value)
         textAreaValueHtml.value = html
     })
+
+
     //MOUSE EVENT START
     useClientEffect$(({track, cleanup}) => {
         track(() => isUp.value)
         cleanup(() => {
             document.removeEventListener('mousemove', handleMouseMove)
+            document.removeEventListener('touchmove', handleTouchMove)
         })
         if (isUp.value) {
             document.addEventListener('mousemove', handleMouseMove)
+            document.addEventListener('touchmove', handleTouchMove)
         }
 
     })
@@ -108,13 +116,20 @@ export default component$(() => {
                     <div
                         ref={dragRef}
                         preventdefault:drag
+                        preventdefault:mousedown
                         class={'drag'}
                         document:onMouseUp$={() => {
-                        isUp.value = false
-                    }}
-                        onMouseDown$={() => {
+                            isUp.value = false
+                        }}
+                        onMouseDown$={(e) => {
+                            e.stopPropagation()
                             isUp.value = true
                         }}
+                        onTouchStart$={()=>{
+                            isUp.value = true
+                        }}
+                        onTouchEnd$={()=>{isUp.value = false}}
+                        onTouchCancel$={()=>{isUp.value = false}}
 
                     />
                 </div>
