@@ -36,10 +36,10 @@ export default component$(() => {
     useStyles$(codeStyles)
 
 
-    const textAreaValue = useSignal('# title \n' +
-        '## title\n' +
-        '### title\n' +
-        '#### title\n' +
+    const textAreaValue = useSignal('# title1 \n' +
+        '## title2\n' +
+        '### title3\n' +
+        '#### title4\n' +
         '\n' +
         'some post content\n' +
         '\n' +
