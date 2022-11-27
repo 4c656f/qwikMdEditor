@@ -1,4 +1,12 @@
-import {component$, HTMLAttributes, PropFunction, Signal, useClientEffect$, useStylesScoped$} from '@builder.io/qwik';
+import {
+    component$,
+    HTMLAttributes,
+    PropFunction,
+    Signal,
+    Slot,
+    useClientEffect$,
+    useStylesScoped$
+} from '@builder.io/qwik';
 import styles from './textArea.scss?inline'
 import {IColorIndex} from "../../../../types/IColorIndex";
 
@@ -31,11 +39,6 @@ export default component$((props: TextAreaProps) => {
 
     ]
 
-    useClientEffect$(({track}) => {
-        track(() => value?.value)
-        console.log(value?.value, 'textArea')
-    })
-
 
     return (
 
@@ -51,7 +54,9 @@ export default component$((props: TextAreaProps) => {
                 }
             }}
             {...rest}
-        >{value?.value}</textarea>
+        >
+            {value?.value}
+        </textarea>
 
     );
 });

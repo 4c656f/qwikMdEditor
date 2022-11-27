@@ -166,29 +166,25 @@ $default_transition: 0.3s;
 }
 
 
-@mixin styling_scrollbar($color_index:1) {
+@mixin styling_scrollbar($color_index:1, $border_color:rgba(0, 0, 0, 0), $border_width: 6px) {
   /* width */
+  //padding: 0;
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 20px;
 
   }
 
   /* Track */
   &::-webkit-scrollbar-track {
     background: none;
-
-
   }
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
 
-    border: 1.5px solid rgba(0, 0, 0, 0);
+    border: $border_width solid $border_color;
     background-clip: padding-box;
-
     background-color: var(--index_#{$color_index}_color);
-
-
     border-radius: 9999px;
 
 

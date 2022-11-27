@@ -1,4 +1,13 @@
-import {$, component$, Signal, useClientEffect$, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
+import {
+    $,
+    component$,
+    QwikKeyboardEvent,
+    Signal,
+    useClientEffect$,
+    useSignal,
+    useStyles$,
+    useStylesScoped$
+} from '@builder.io/qwik';
 import type {DocumentHead} from '@builder.io/qwik-city';
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
@@ -47,9 +56,46 @@ export default component$(() => {
         '   param: string\n' +
         '}\n' +
         'const variable: IVariableType = 10\n' +
+        '```# title1 \n' +
+        '## title2\n' +
+        '### title3\n' +
+        '#### title4\n' +
+        '\n' +
+        'some post content\n' +
+        '\n' +
+        '```ts\n' +
+        'type IVariableType = {\n' +
+        '   param: string\n' +
+        '}\n' +
+        'const variable: IVariableType = 10\n' +
+        '```# title1 \n' +
+        '## title2\n' +
+        '### title3\n' +
+        '#### title4\n' +
+        '\n' +
+        'some post content\n' +
+        '\n' +
+        '```ts\n' +
+        'type IVariableType = {\n' +
+        '   param: string\n' +
+        '}\n' +
+        'const variable: IVariableType = 10\n' +
+        '```# title1 \n' +
+        '## title2\n' +
+        '### title3\n' +
+        '#### title4\n' +
+        '\n' +
+        'some post content\n' +
+        '\n' +
+        '```ts\n' +
+        'type IVariableType = {\n' +
+        '   param: string\n' +
+        '}\n' +
+        'const variable: IVariableType = 10\n' +
         '```')
     const textAreaRef = useSignal<HTMLTextAreaElement>() as Signal<HTMLTextAreaElement>
-    const dragRef = useSignal<HTMLDivElement>() as Signal<HTMLDivElement>
+    const dragContainerRef = useSignal<HTMLDivElement>() as Signal<HTMLDivElement>
+
 
     const isUp = useSignal<boolean>(false)
 
@@ -61,12 +107,12 @@ export default component$(() => {
 
     const handleMouseMove = $((e: MouseEvent) => {
         e.preventDefault()
-        textAreaRef.value.style.width = `${e.clientX}px`
+        dragContainerRef.value.style.width = `${e.clientX}px`
     })
     const handleTouchMove = $((e: TouchEvent) => {
 
         console.log('touchEvent')
-        textAreaRef.value.style.width = `${e.targetTouches[0].pageX}px`
+        dragContainerRef.value.style.width = `${e.targetTouches[0].pageX}px`
     })
 
 
@@ -74,6 +120,7 @@ export default component$(() => {
     useClientEffect$(({track}) => {
         track(() => textAreaValue.value)
         const html = remark.render(textAreaValue.value)
+        console.log(textAreaValue.value)
         textAreaValueHtml.value = html
     })
 
@@ -91,6 +138,23 @@ export default component$(() => {
         }
 
     })
+    const handleKeyDown = $((e:KeyboardEvent)=>{
+        const target = e.target as HTMLTextAreaElement
+
+        if(e.key === 'Tab'){
+            e.preventDefault()
+            const value = textAreaValue.value
+            const start = target.selectionStart
+            const end = target.selectionEnd;
+            textAreaRef.value.setRangeText('   ', start, end, 'end')
+            textAreaValue.value = value.substring(0, start) + '   ' + value.substring(end)
+            // textAreaRef.value.selectionStart = textAreaRef.value.selectionEnd = start + 3
+        }
+
+    })
+    useClientEffect$(()=>{
+        textAreaRef.value.addEventListener('keydown', handleKeyDown)
+    })
 
 
     return (
@@ -101,20 +165,24 @@ export default component$(() => {
                 class={'editor_container'}
             >
                 <div
+                    ref={dragContainerRef}
                     class={'editor_container_item'}
                 >
                     <TextArea
                         value={textAreaValue}
                         ref={textAreaRef}
+
                         onInput$={(e) => {
                             const target = e.target as HTMLTextAreaElement
                             textAreaValue.value = target.value
                         }}
-                        id={'Resizable'}
+
                         colorIndex={'0'}
                     />
+
+
                     <div
-                        ref={dragRef}
+
                         preventdefault:drag
                         preventdefault:mousedown
                         class={'drag'}
@@ -139,7 +207,7 @@ export default component$(() => {
                 <div
                     class={'editor_container_item_md'}
                     dangerouslySetInnerHTML={textAreaValueHtml.value}
-                />
+                >{textAreaValueHtml.value}</div>
                 }
 
 
