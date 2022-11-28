@@ -14,9 +14,10 @@ export default component$(() => {
             <head>
                 <meta charSet="utf-8"/>
                 <link rel="manifest" href="/manifest.json"/>
+
                 <RouterHead/>
             </head>
-            <body lang="en">
+            <body lang="en" class="line-numbers">
             <RouterOutlet/>
             <ServiceWorkerRegister/>
             </body>

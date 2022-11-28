@@ -26,6 +26,7 @@
     "@builder.io/qwik-city": "0.0.127",
     "@types/autosize": "^4.0.1",
     "@types/eslint": "8.4.10",
+    "@types/marked": "^4.0.7",
     "@types/node": "latest",
     "@types/prismjs": "^1.26.0",
     "@types/remarkable": "^2.0.3",
@@ -43,6 +44,7 @@
   },
   "dependencies": {
     "highlight.js": "^11.7.0",
+    "marked": "^4.2.3",
     "prismjs": "^1.29.0",
     "remarkable": "^2.0.1"
   }

@@ -2,29 +2,16 @@ import {$, component$, Signal, useClientEffect$, useSignal, useStyles$, useStyle
 import type {DocumentHead} from '@builder.io/qwik-city';
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
-import {Remarkable} from 'remarkable';
-import hljs from 'highlight.js';
 import TextArea from "../components/ui/TextArea/TextArea";
+import Prism from 'prismjs';
+// import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
+import {marked} from 'marked'
+// import 'prismjs/components/prism-python'
 
 
-enum languages {
-    'js',
-    'python',
-    'go',
-    'php',
-    'html',
-    'css',
-    'c++',
-    'java',
-    'ts'
-}
 
 
-export const remark = new Remarkable({
-    highlight(str: string, lang: string): string {
-        return hljs.highlight(str, {language: lang in languages ? lang : 'ts'}, true).value
-    }
-})
+
 
 export default component$(() => {
 
@@ -42,47 +29,10 @@ export default component$(() => {
         '\n' +
         'some post content\n' +
         '\n' +
-        '```ts\n' +
+        '```js\n' +
         'type IVariableType = {\n' +
         '   param: string\n' +
-        '}\n' +
-        'const variable: IVariableType = 10\n' +
-        '```# title1 \n' +
-        '## title2\n' +
-        '### title3\n' +
-        '#### title4\n' +
-        '\n' +
-        'some post content\n' +
-        '\n' +
-        '```ts\n' +
-        'type IVariableType = {\n' +
-        '   param: string\n' +
-        '}\n' +
-        'const variable: IVariableType = 10\n' +
-        '```# title1 \n' +
-        '## title2\n' +
-        '### title3\n' +
-        '#### title4\n' +
-        '\n' +
-        'some post content\n' +
-        '\n' +
-        '```ts\n' +
-        'type IVariableType = {\n' +
-        '   param: string\n' +
-        '}\n' +
-        'const variable: IVariableType = 10\n' +
-        '```# title1 \n' +
-        '## title2\n' +
-        '### title3\n' +
-        '#### title4\n' +
-        '\n' +
-        'some post content\n' +
-        '\n' +
-        '```ts\n' +
-        'type IVariableType = {\n' +
-        '   param: string\n' +
-        '}\n' +
-        'const variable: IVariableType = 10\n' +
+        '```' +
         '```')
     const textAreaRef = useSignal<HTMLTextAreaElement>() as Signal<HTMLTextAreaElement>
     const dragContainerRef = useSignal<HTMLDivElement>() as Signal<HTMLDivElement>
@@ -105,10 +55,17 @@ export default component$(() => {
 
 
     //TEXT CHANGE
-    useClientEffect$(({track}) => {
+    useClientEffect$( ({track}) => {
         track(() => textAreaValue.value)
-        const html = remark.render(textAreaValue.value)
-        console.log(textAreaValue.value)
+        const html = marked(textAreaValue.value, {
+            highlight: (code, lang)=>{
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+
+                return Prism.highlight(code, Prism.languages.js, 'js');
+            }
+        })
         textAreaValueHtml.value = html
     })
 
