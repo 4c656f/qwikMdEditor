@@ -7,28 +7,25 @@ import Prism from 'prismjs';
 import {marked} from 'marked'
 
 
-
-
-
-export const renderer = new marked.Renderer();
-renderer.code = function (code, language) {
-    let codeHighlighted
-
-    if(language){
-        if (Prism.languages[language]) {
-            codeHighlighted =  Prism.highlight(code, Prism.languages[language], language);
-        }else{
-
-            // @ts-ignore
-            // import(`prismjs/components/${language}`)
-            codeHighlighted = Prism.highlight(code, Prism.languages.typescript, 'typescript');
-        }
-
-    }
-
-
-    return `<pre><code>${codeHighlighted?codeHighlighted:code}</code></pre>`
-}
+// export const renderer = new marked.Renderer();
+// renderer.code = function (code, language) {
+//     let codeHighlighted
+//
+//     if(language){
+//         if (Prism.languages[language]) {
+//             codeHighlighted =  Prism.highlight(code, Prism.languages[language], language);
+//         }else{
+//
+//             // @ts-ignore
+//             // import(`prismjs/components/${language}`)
+//             codeHighlighted = Prism.highlight(code, Prism.languages.typescript, 'typescript');
+//         }
+//
+//     }
+//
+//
+//     return `<pre><code>${codeHighlighted?codeHighlighted:code}</code></pre>`
+// }
 
 export default component$(() => {
 
@@ -73,28 +70,24 @@ export default component$(() => {
 
 
     //TEXT CHANGE
-    useClientEffect$( ({track}) => {
+    useClientEffect$(({track}) => {
         track(() => textAreaValue.value)
         const html = marked(textAreaValue.value, {
-            renderer: renderer,
+            highlight: (code, lang) => {
+
+                if(Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+                return Prism.highlight(code, Prism.languages.js, 'js');
+
+
+            }
         })
+
         console.log(html)
         textAreaValueHtml.value = html
 
     })
-
-
-
-    // useClientEffect$(({track})=>{
-    //     track(()=>textAreaValueHtml.value)
-    //     const codes = document.querySelectorAll('pre')
-    //     codes.forEach(value => {
-    //         const btn = document.createElement('button')
-    //         btn.innerText = 'copy'
-    //         btn.onclick = ()=>{console.log('clicked')}
-    //         value.appendChild(btn)
-    //     })
-    // })
 
 
     //MOUSE EVENT START
@@ -159,7 +152,7 @@ export default component$(() => {
                         preventdefault:drag
                         preventdefault:mousedown
                         class={'drag'}
-                        document:onMouseUp$= {() => {
+                        document:onMouseUp$={() => {
                         isUp.value = false
                     }}
                         onMouseDown$={(e) => {
@@ -186,7 +179,6 @@ export default component$(() => {
                     dangerouslySetInnerHTML={textAreaValueHtml.value}
                 />
                 }
-
 
 
             </div>
