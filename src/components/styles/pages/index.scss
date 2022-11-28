@@ -34,7 +34,7 @@
 
 
   @include styling_scrollbar($color_index: 2, $border_width: 7px);
-  @include small_padding($left: 10px, $right: 0px)
+  @include small_padding($left: 10px, $right: 10px)
 }
 
 .drag {

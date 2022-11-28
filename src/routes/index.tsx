@@ -4,14 +4,31 @@ import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
 import TextArea from "../components/ui/TextArea/TextArea";
 import Prism from 'prismjs';
-// import 'prismjs/plugins/line-numbers/prism-line-numbers.js'
 import {marked} from 'marked'
-// import 'prismjs/components/prism-python'
 
 
 
 
 
+export const renderer = new marked.Renderer();
+renderer.code = function (code, language) {
+    let codeHighlighted
+
+    if(language){
+        if (Prism.languages[language]) {
+            codeHighlighted =  Prism.highlight(code, Prism.languages[language], language);
+        }else{
+
+            // @ts-ignore
+            // import(`prismjs/components/${language}`)
+            codeHighlighted = Prism.highlight(code, Prism.languages.typescript, 'typescript');
+        }
+
+    }
+
+
+    return `<pre><code>${codeHighlighted?codeHighlighted:code}</code></pre>`
+}
 
 export default component$(() => {
 
@@ -29,11 +46,12 @@ export default component$(() => {
         '\n' +
         'some post content\n' +
         '\n' +
-        '```js\n' +
+        '```typescript\n' +
         'type IVariableType = {\n' +
         '   param: string\n' +
         '```' +
-        '```')
+        '')
+
     const textAreaRef = useSignal<HTMLTextAreaElement>() as Signal<HTMLTextAreaElement>
     const dragContainerRef = useSignal<HTMLDivElement>() as Signal<HTMLDivElement>
 
@@ -47,8 +65,8 @@ export default component$(() => {
         e.preventDefault()
         dragContainerRef.value.style.width = `${e.clientX}px`
     })
-    const handleTouchMove = $((e: TouchEvent) => {
 
+    const handleTouchMove = $((e: TouchEvent) => {
         console.log('touchEvent')
         dragContainerRef.value.style.width = `${e.targetTouches[0].pageX}px`
     })
@@ -58,16 +76,25 @@ export default component$(() => {
     useClientEffect$( ({track}) => {
         track(() => textAreaValue.value)
         const html = marked(textAreaValue.value, {
-            highlight: (code, lang)=>{
-                if (Prism.languages[lang]) {
-                    return Prism.highlight(code, Prism.languages[lang], lang);
-                }
-
-                return Prism.highlight(code, Prism.languages.js, 'js');
-            }
+            renderer: renderer,
         })
+        console.log(html)
         textAreaValueHtml.value = html
+
     })
+
+
+
+    // useClientEffect$(({track})=>{
+    //     track(()=>textAreaValueHtml.value)
+    //     const codes = document.querySelectorAll('pre')
+    //     codes.forEach(value => {
+    //         const btn = document.createElement('button')
+    //         btn.innerText = 'copy'
+    //         btn.onclick = ()=>{console.log('clicked')}
+    //         value.appendChild(btn)
+    //     })
+    // })
 
 
     //MOUSE EVENT START
@@ -97,6 +124,7 @@ export default component$(() => {
         }
 
     })
+
     useClientEffect$(() => {
         textAreaRef.value.addEventListener('keydown', handleKeyDown)
     })
@@ -156,8 +184,9 @@ export default component$(() => {
                 <div
                     class={'editor_container_item_md'}
                     dangerouslySetInnerHTML={textAreaValueHtml.value}
-                >{textAreaValueHtml.value}</div>
+                />
                 }
+
 
 
             </div>

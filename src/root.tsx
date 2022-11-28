@@ -17,7 +17,7 @@ export default component$(() => {
 
                 <RouterHead/>
             </head>
-            <body lang="en" class="line-numbers">
+            <body lang="en">
             <RouterOutlet/>
             <ServiceWorkerRegister/>
             </body>
