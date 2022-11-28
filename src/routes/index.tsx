@@ -3,28 +3,10 @@ import type {DocumentHead} from '@builder.io/qwik-city';
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
 import TextArea from "../components/ui/TextArea/TextArea";
-import Prism from 'prismjs';
+import PrismImp from 'prismjs';
 import {marked} from 'marked'
 
-// export const renderer = new marked.Renderer();
-// renderer.code = function (code, language) {
-//     let codeHighlighted
-//
-//     if(language){
-//         if (Prism.languages[language]) {
-//             codeHighlighted =  Prism.highlight(code, Prism.languages[language], language);
-//         }else{
-//
-//             // @ts-ignore
-//             // import(`prismjs/components/${language}`)
-//             codeHighlighted = Prism.highlight(code, Prism.languages.typescript, 'typescript');
-//         }
-//
-//     }
-//
-//
-//     return `<pre><code>${codeHighlighted?codeHighlighted:code}</code></pre>`
-// }
+export const Prism = PrismImp
 
 export default component$(() => {
 
@@ -67,25 +49,45 @@ export default component$(() => {
         dragContainerRef.value.style.width = `${e.targetTouches[0].pageX}px`
     })
 
+    useClientEffect$(()=>{
+
+            // @ts-ignore
+            import('prismjs/components/prism-python')
+            // @ts-ignore
+            import('prismjs/components/prism-java')
+            // @ts-ignore
+            import('prismjs/components/prism-cpp')
+            // @ts-ignore
+            import('prismjs/components/prism-go')
+            // @ts-ignore
+            import('prismjs/components/prism-tsx')
+            // @ts-ignore
+            import('prismjs/components/prism-jsx')
+            // @ts-ignore
+            import('prismjs/components/prism-scss')
+            // @ts-ignore
+            import('prismjs/components/prism-typescript')
+            // @ts-ignore
+            import('prismjs/components/prism-typescript')
+
+    })
+
 
     //TEXT CHANGE
     useClientEffect$(({track}) => {
         track(() => textAreaValue.value)
         const html = marked(textAreaValue.value, {
             highlight: (code, lang) => {
-
-                if(Prism.languages[lang]) {
+                if (Prism.languages[lang]) {
                     return Prism.highlight(code, Prism.languages[lang], lang);
                 }
+                // return Prism.highlight(code, Prism.languages[lang], lang);
                 return Prism.highlight(code, Prism.languages.js, 'js');
 
 
             }
         })
-
-        console.log(html)
         textAreaValueHtml.value = html
-
     })
 
 
