@@ -16,32 +16,14 @@ export default defineConfig(() => {
         }),
             qwikVite(),
             tsconfigPaths(),
-            // prismPlugin({
-            //     "languages": [
-            //         'typescript',
-            //         'js',
-            //         'tsx',
-            //         'go',
-            //         'cpp',
-            //         'python',
-            //         'java',
-            //         'html',
-            //         'css',
-            //     ],
-            //     "plugins": [],
-            // })
         ],
         preview: {
             headers: {
                 'Cache-Control': 'public, max-age=600',
             },
 
-        },
-        resolve: {
-            alias: {
-                'Prism': './node_modules/prismjs'
-            }
         }
+
 
 
     };

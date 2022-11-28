@@ -6,7 +6,6 @@ import TextArea from "../components/ui/TextArea/TextArea";
 import Prism from 'prismjs';
 import {marked} from 'marked'
 
-
 // export const renderer = new marked.Renderer();
 // renderer.code = function (code, language) {
 //     let codeHighlighted
