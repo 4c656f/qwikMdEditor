@@ -1,3 +1,18 @@
+@import "../../variables";
+
+
+
+
+
+
+pre{
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+  background-color: var(--index_1_color);
+  border-radius: $border_radius;
+  position: relative;
+}
 pre[class*="language-"],
 code[class*="language-"] {
   color: #d4d4d4;
@@ -19,13 +34,17 @@ code[class*="language-"] {
   hyphens: none;
 }
 
-pre[class*="language-"]::selection,
-code[class*="language-"]::selection,
-pre[class*="language-"] *::selection,
-code[class*="language-"] *::selection {
-  text-shadow: none;
-  background: #264F78;
+.file_name{
+  background-color: var(--index_2_color);
+  color: var(--index_1_text);
+  position: absolute;
+  right: 0%;
+  top: 0%;
+  border-radius: 0 0 0 $border-radius;
+
+  @include small_padding($vertical: 5px, $horizontal: 2px);
 }
+
 
 @media print {
   pre[class*="language-"],
@@ -34,12 +53,12 @@ code[class*="language-"] *::selection {
   }
 }
 
-pre[class*="language-"] {
-  padding: 1em;
-  margin: .5em 0;
-  overflow: auto;
-  background: #1e1e1e;
-}
+//pre[class*="language-"] {
+//  padding: 1em;
+//  margin: .5em 0;
+//  overflow: auto;
+//  background: #1e1e1e;
+//}
 
 :not(pre) > code[class*="language-"] {
   padding: .1em .3em;

@@ -12,9 +12,30 @@ import type {DocumentHead} from '@builder.io/qwik-city';
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
 import TextArea from "../components/ui/TextArea/TextArea";
-import {marked} from 'marked'
+import {marked, Renderer} from 'marked'
 import {isServer} from "@builder.io/qwik/build";
 
+
+
+
+// export const renderer = new Renderer();
+// renderer.code = function (code, language) {
+//     let codeHighlighted
+//
+//     if(language){
+//         if (Prism.languages[language]) {
+//             codeHighlighted =  Prism.highlight(code, Prism.languages[language], language);
+//         }else{
+//             // @ts-ignore
+//             // import(`prismjs/components/${language}`)
+//             codeHighlighted = Prism.highlight(code, Prism.languages.typescript, 'typescript');
+//         }
+//
+//     }
+//
+//
+//     return `<pre><code>${codeHighlighted?codeHighlighted:code}</code></pre>`
+// }
 
 export default component$(() => {
 
@@ -32,7 +53,7 @@ export default component$(() => {
         '\n' +
         'some post content\n' +
         '\n' +
-        '```typescript\n' +
+        '```typescript main.ts\n' +
         'type IVariableType = {\n' +
         '   param: string\n' +
         '```' +
@@ -54,7 +75,7 @@ export default component$(() => {
     })
 
     const handleTouchMove = $((e: TouchEvent) => {
-        console.log('touchEvent')
+
         dragContainerRef.value.style.width = `${e.targetTouches[0].pageX}px`
     })
 
@@ -83,17 +104,26 @@ export default component$(() => {
         const Prism = await import('prismjs')
         // @ts-ignore
         await import('prismjs/components/prism-typescript')
+        const renderer = new Renderer();
+        renderer.code = function (code, params) {
+            let codeHighlighted:string
+            const [language, fileName] = params.split(' ')
 
-        const html = marked(textAreaValue.value, {
-            highlight: (code, lang) => {
-                if (Prism.languages[lang]) {
-                    return Prism.highlight(code, Prism.languages[lang], lang);
+            if(language){
+                if (Prism.languages[language]) {
+                    codeHighlighted =  Prism.highlight(code, Prism.languages[language], language);
+                }else{
+                    isAdLanguage.value = language
+                    codeHighlighted = Prism.highlight(code, Prism.languages.typescript, 'typescript');
                 }
-                isAdLanguage.value = lang
-                return Prism.highlight(code, Prism.languages.typescript, 'typescript');
-
 
             }
+
+
+            return `<pre class="language-${language}">${fileName?`<span class="file_name">${fileName}</span>`:''}<code class="language-${language}">${codeHighlighted?codeHighlighted:code}</code></pre>`
+        }
+        const html = marked(textAreaValue.value, {
+            renderer: renderer,
         })
         textAreaValueHtml.value = html
     })
