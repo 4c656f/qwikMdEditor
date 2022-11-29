@@ -3,8 +3,6 @@ import codeTheme from '../../components/styles/codeTheme.scss?inline'
 import {RequestHandler, useEndpoint} from "@builder.io/qwik-city";
 
 
-
-
 export const Htmlstr = `
     <h1 id="title1">title1</h1>
     <h2 id="title2">title2</h2>
@@ -15,8 +13,7 @@ export const Htmlstr = `
         param<span class="token operator">:</span> <span class="token builtin">string</span></code></pre>`;
 
 
-
-export const onGet: RequestHandler<string> = ()=>{
+export const onGet: RequestHandler<string> = () => {
     return Htmlstr
 }
 
@@ -35,8 +32,8 @@ export default component$(() => {
         <div>
             <Resource
                 value={pageResource}
-                onPending={()=><div>Loading</div>}
-                onResolved={(value)=>(
+                onPending={() => <div>Loading</div>}
+                onResolved={(value) => (
                     <div
                         dangerouslySetInnerHTML={value}
                     />

@@ -1,12 +1,20 @@
-import {$, component$, Signal, useClientEffect$, useSignal, useStyles$, useStylesScoped$} from '@builder.io/qwik';
+import {
+    $,
+    component$,
+    Signal,
+    useClientEffect$,
+    useResource$,
+    useSignal,
+    useStyles$,
+    useStylesScoped$
+} from '@builder.io/qwik';
 import type {DocumentHead} from '@builder.io/qwik-city';
 import styles from '../components/styles/pages/index.scss?inline'
 import codeStyles from '../components/styles/codeTheme.scss?inline'
 import TextArea from "../components/ui/TextArea/TextArea";
-import PrismImp from 'prismjs';
 import {marked} from 'marked'
+import {isServer} from "@builder.io/qwik/build";
 
-export const Prism = PrismImp
 
 export default component$(() => {
 
@@ -36,6 +44,7 @@ export default component$(() => {
 
     const isUp = useSignal<boolean>(false)
 
+    const isAdLanguage = useSignal<string | undefined>()
     const textAreaValueHtml = useSignal('')
 
 
@@ -49,40 +58,39 @@ export default component$(() => {
         dragContainerRef.value.style.width = `${e.targetTouches[0].pageX}px`
     })
 
-    useClientEffect$(()=>{
-
-            // @ts-ignore
-            import('prismjs/components/prism-python')
-            // @ts-ignore
-            import('prismjs/components/prism-java')
-            // @ts-ignore
-            import('prismjs/components/prism-cpp')
-            // @ts-ignore
-            import('prismjs/components/prism-go')
-            // @ts-ignore
-            import('prismjs/components/prism-tsx')
-            // @ts-ignore
-            import('prismjs/components/prism-jsx')
-            // @ts-ignore
-            import('prismjs/components/prism-scss')
-            // @ts-ignore
-            import('prismjs/components/prism-typescript')
-            // @ts-ignore
-            import('prismjs/components/prism-typescript')
-
+    useResource$(async ({track}) => {
+        track(() => isAdLanguage.value)
+        if (isServer) return
+        // @ts-ignore
+        import('prismjs/components/prism-python')
+        // @ts-ignore
+        import('prismjs/components/prism-java')
+        // @ts-ignore
+        import('prismjs/components/prism-go')
+        // @ts-ignore
+        import('prismjs/components/prism-scss')
+        // @ts-ignore
+        await import('prismjs/components/prism-jsx')
+        // @ts-ignore
+        import('prismjs/components/prism-tsx')
     })
 
 
     //TEXT CHANGE
-    useClientEffect$(({track}) => {
+    useClientEffect$(async ({track}) => {
         track(() => textAreaValue.value)
+
+        const Prism = await import('prismjs')
+        // @ts-ignore
+        await import('prismjs/components/prism-typescript')
+
         const html = marked(textAreaValue.value, {
             highlight: (code, lang) => {
                 if (Prism.languages[lang]) {
                     return Prism.highlight(code, Prism.languages[lang], lang);
                 }
-                // return Prism.highlight(code, Prism.languages[lang], lang);
-                return Prism.highlight(code, Prism.languages.js, 'js');
+                isAdLanguage.value = lang
+                return Prism.highlight(code, Prism.languages.typescript, 'typescript');
 
 
             }

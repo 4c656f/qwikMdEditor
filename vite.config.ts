@@ -12,9 +12,12 @@ export default defineConfig(() => {
                 remarkGfm: true,
                 rehypeSyntaxHighlight: true,
                 rehypeAutolinkHeadings: false
-            }
+            },
         }),
-            qwikVite(),
+            qwikVite({
+                optimizerOptions:{
+
+                }}),
             tsconfigPaths(),
         ],
         preview: {
@@ -23,6 +26,7 @@ export default defineConfig(() => {
             },
 
         }
+
 
 
 
